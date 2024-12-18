@@ -1,3 +1,0 @@
-# Placeholder content
-
-Under Construction.
