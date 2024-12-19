@@ -12,23 +12,70 @@ format:
 library(tidyverse)
 library(gt)
 library(googlesheets4)
+library(quarto)
 ```
 
 ```{r, import data}
 df = read_sheet("https://docs.google.com/spreadsheets/d/1uNYfeghUGPkpMYVwhLSkxx81_x8Syr7t9W8D4Ry4hag/edit?gid=0#gid=0")
+
 ```
 
-## Column (width = 60%)
+## Column {width="60%"}
 
-Placeholder text for column 1
+### Row {height="10%"}
+Placeholder text for column 
+
+### Row {height="90%"}
 
 ```{r}
 df |> 
+  select(-link) |> 
   gt() 
 ```
 
-## Column (width = 40%)
+## Column {width="40%"}
 
-### Row (height = 20%)
+### Row {height="10%"}
 
-Placeholder text for column 2
+```{r, sendtoojs}
+#| echo: false
+#| include: false
+
+ojs_define(ojs_df = df)
+```
+
+```{ojs}
+//| expandable: false
+
+df_transpose = transpose(ojs_df)
+
+viewof songDropdown = Inputs.select(
+  df_transpose.map(d => d.Title),
+  {
+  label: "Chooose a song",
+  unique: true,
+  
+}
+)
+
+```
+
+### Row {height = "80%"}
+
+```{ojs}
+//| expandable: false
+
+html`
+    ${songDropdown ? html`
+      <iframe width="100%" height="500" src="${df_transpose.find(d => d.Title === songDropdown).link}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    ` : "Please select a song from the dropdown"}
+`
+```
+
+### Row {height = "10%"}
+
+::: {.card}
+
+:::
+
+
