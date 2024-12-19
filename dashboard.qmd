@@ -30,7 +30,8 @@ Placeholder text for column
 ```{r}
 df |> 
   select(-link) |> 
-  gt() 
+  gt() |> 
+  opt_stylize(style = 1, color = "blue")
 ```
 
 ## Column {width="40%"}
