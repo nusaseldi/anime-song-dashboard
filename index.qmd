@@ -1,11 +1,6 @@
 ---
-title: "anime-song-dashboard"
+title: ""
 ---
 
-This is a Quarto website.
+This is main page.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```

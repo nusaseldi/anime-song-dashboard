@@ -6,20 +6,26 @@ format:
     orientation: columns
 ---
 
-## Column (width = 60%)
-
-Placeholder text for column 1
-
 ```{r, load packages}
 #| echo: false
 #| include: false
 library(tidyverse)
+library(gt)
+library(googlesheets4)
 ```
+
+```{r, import data}
+df = read_sheet("https://docs.google.com/spreadsheets/d/1uNYfeghUGPkpMYVwhLSkxx81_x8Syr7t9W8D4Ry4hag/edit?gid=0#gid=0")
+```
+
+## Column (width = 60%)
+
+Placeholder text for column 1
 
 ```{r}
-head(iris)
+df |> 
+  gt() 
 ```
-
 
 ## Column (width = 40%)
 
