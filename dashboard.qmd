@@ -16,6 +16,8 @@ library(quarto)
 ```
 
 ```{r, import data}
+gs4_deauth()
+
 df = read_sheet("https://docs.google.com/spreadsheets/d/1uNYfeghUGPkpMYVwhLSkxx81_x8Syr7t9W8D4Ry4hag/edit?gid=0#gid=0")
 
 ```
