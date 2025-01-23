@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "This is main page."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -8,12 +15,5 @@
     "crumbs": [
       "About"
     ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "",
-    "section": "",
-    "text": "This is main page."
   }
 ]
