@@ -30,10 +30,44 @@ Placeholder text for column
 ### Row {height="90%"}
 
 ```{r}
+#| expandable: false
+
 df |> 
   select(-link) |> 
   gt() |> 
-  opt_stylize(style = 1, color = "blue")
+   tab_options(
+    table.width = pct(100),
+    table.border.top.color = "white",
+    table.border.bottom.color = "white",
+    column_labels.font.weight = "bold",
+    column_labels.background.color = "#f4f4f4",
+    row.striping.background_color = "#f9f9f9"
+  ) %>%
+
+  # Column styling
+  cols_align(align = "center", columns = everything()) %>%
+  cols_width(
+    Title ~ px(200),
+    Artist ~ px(250),
+    Anime ~ px(250)
+  ) %>%
+  
+  # Font Styling
+  opt_table_font(
+    font = google_font("Poppins"),
+    weight = 400
+  ) %>%
+  
+  # Add subtle row striping
+  opt_row_striping() %>%
+  
+  # Color table borders softly
+  tab_style(
+    style = list(
+      cell_borders(sides = "all", color = "lightgrey", weight = px(0.5))
+    ),
+    locations = cells_body()
+  )
 ```
 
 ## Column {width="40%"}

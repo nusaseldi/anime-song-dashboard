@@ -5,8 +5,6 @@ website:
   title: ""
   sidebar:
     contents:
-      - href: about.qmd
-        text: About
       - href: dashboard.qmd
         text: Dashboard
 
