@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://nusaseldi.github.io/anime-song-dashboard/dashboard.html</loc>
+    <lastmod>2026-05-27T23:52:33.178Z</lastmod>
+  </url>
+  <url>
     <loc>https://nusaseldi.github.io/anime-song-dashboard/about.html</loc>
-    <lastmod>2026-05-26T23:54:38.583Z</lastmod>
+    <lastmod>2026-05-27T23:52:33.178Z</lastmod>
   </url>
   <url>
     <loc>https://nusaseldi.github.io/anime-song-dashboard/index.html</loc>
-    <lastmod>2026-05-26T23:54:38.583Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nusaseldi.github.io/anime-song-dashboard/dashboard.html</loc>
-    <lastmod>2026-05-26T23:54:38.583Z</lastmod>
+    <lastmod>2026-05-27T23:52:33.178Z</lastmod>
   </url>
 </urlset>
