@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index</title>
+<title>My anisong dashboard</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -30,7 +30,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -42,10 +41,22 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-55617497126496852ff9f5a59253c640.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-dashboard/quarto-dashboard.js"></script>
+<script src="site_libs/quarto-dashboard/stickythead.js"></script>
+
+
+
+<script src="site_libs/quarto-dashboard/web-components.js" type="module"></script>
+<script src="site_libs/quarto-dashboard/components.js"></script>
+
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -78,60 +89,294 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="quarto-dashboard dashboard-fill fullcontent quarto-light">
 
-<div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
-<!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./dashboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Dashboard</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+<header id="quarto-dashboard-header">
+<nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
+  <div class="navbar-container container-fluid">
+    <button class="navbar-toggler hidden" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>    
+
+
+    <div class="navbar-brand-container">
+    <a href="#"><img src="images/logo.png" alt="" class="navbar-logo light-content d-inline-block"></a>
+    <a href="#"><img src="images/logo.png" alt="" class="navbar-logo dark-content d-inline-block"></a>
+      <div class="navbar-title">
+        <div class="navbar-title-text"><a href="#">My anisong dashboard</a></div>
         
+        
+      </div>
     </div>
+</div>
+</nav>
+</header>
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill">
+<!-- sidebar -->
+<!-- margin-sidebar -->
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+<div class="bslib-grid-item html-fill-item bslib-grid" data-layout="fill" style="display: grid; grid-template-rows: minmax(3em, 18fr) minmax(3em, 82fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-primary showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card-body html-fill-item html-fill-container">
+<div data-icon="music-note-beamed" class="html-fill-item html-fill-container value-box-grid">
+<div class="value-box-showcase html-fill-item html-fill-container">
+
+<i class="bi bi-music-note-beamed"></i></div>
+<div class="value-box-area">
+<p class="value-box-title">
+Total Anime Tracks
+</p>
+<p class="value-box-value">
+62
+</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-info showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card-body html-fill-item html-fill-container">
+<div data-icon="film" class="html-fill-item html-fill-container value-box-grid">
+<div class="value-box-showcase html-fill-item html-fill-container">
+
+<i class="bi bi-film"></i></div>
+<div class="value-box-area">
+<p class="value-box-title">
+Anime Titles
+</p>
+<p class="value-box-value">
+52
+</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-danger showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card-body html-fill-item html-fill-container">
+<div data-icon="person-lines-fill" class="html-fill-item html-fill-container value-box-grid">
+<div class="value-box-showcase html-fill-item html-fill-container">
+
+<i class="bi bi-person-lines-fill"></i></div>
+<div class="value-box-area">
+<p class="value-box-title">
+Featured Artists
+</p>
+<p class="value-box-value">
+48
+</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 55fr) minmax(3em, 45fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header dashboard-card-no-title">
+<p>Song List</p>
+</div>
+<div class="card-body html-fill-item html-fill-container">
+<div class="cyber-search-wrapper html-fill-item html-fill-container">
+  <input type="text" id="searchInput" class="cyber-search-input" placeholder="🔍 Cari judul lagu, anime, atau artis..." oninput="filterSongs()">
+</div>
+
+<div class="cyber-list-container html-fill-item html-fill-container" id="songListContainer">
+  <!-- Song items will be rendered by JavaScript -->
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div><div class="bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header dashboard-card-no-title">
+<p>Music Player</p>
+</div>
+<div class="card-body html-fill-item html-fill-container">
+<div class="player-outer html-fill-item html-fill-container">
+  <div class="player-frame-box html-fill-item html-fill-container">
+    <iframe id="mainVideoPlayer" src="" title="Music Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+    </iframe>
+  </div>
+
+  <div class="now-playing-banner html-fill-item html-fill-container" id="nowPlayingBanner">
+    <div class="now-playing-header html-fill-item html-fill-container">
+      <span class="now-playing-tag">NOW PLAYING</span>
+      <a id="ytExternalLink" href="#" target="_blank" rel="noopener" style="color: #00f2fe; font-size: 0.82rem; text-decoration: none; font-weight: 600;">
+        YouTube Link ↗
+      </a>
+    </div>
+    <h3 class="now-playing-song-title" id="nowPlayingTitle">-</h3>
+    <div class="now-playing-details html-fill-item html-fill-container">
+      <span class="badge-anime" id="nowPlayingAnime" style="font-size: 0.85rem; padding: 4px 12px; max-width: none;">-</span>
+      <span class="badge-artist" id="nowPlayingArtist" style="font-size: 0.85rem; padding: 4px 12px; max-width: none;">-</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const songs = [{"Title":"Idol","Artist":"Yoasobi","Anime":"Oshi No Ko","link":"https://www.youtube.com/embed/ZRtdQ81jPUQ"},{"Title":"Cruel Angel's Thesis","Artist":"Yoko Takahashi","Anime":"Neon Genesis Evangelion","link":"https://www.youtube.com/embed/o6wtDPVkKqI?si=5XaBqJvIjMiyLugZ"},{"Title":"Blue Bird","Artist":"Ikimonogakari","Anime":"Naruto","link":"https://www.youtube.com/embed/KpsJWFuVTdI?si=1NhpsYLr4KWz-pwz"},{"Title":"Kawaki Wo Ameku","Artist":"Minami","Anime":"Domestic Kanojo","link":"https://www.youtube.com/embed/0YF8vecQWYs?si=OExWlJg7G3Gp1Yrw"},{"Title":"Sobakasu","Artist":"Judy And Mary","Anime":"Rurouni Kenshin","link":"https://www.youtube.com/embed/0DBkXcDU270?si=rh4CQMDhMBHJ7aL_"},{"Title":"Oath Sign","Artist":"LiSA","Anime":"Fate/Zero","link":"https://www.youtube.com/embed/GJ4yehnerHQ?si=4WVPepWq92I-S7bV"},{"Title":"Hikaru Nara","Artist":"Goose House","Anime":"Shigatsu wa Kimi no Uso","link":"https://www.youtube.com/embed/UpmSK1GPlBc?si=7YqEVnBGhDe7IiGD"},{"Title":"My Dearest","Artist":"Supercell","Anime":"Guilty Crown","link":"https://www.youtube.com/embed/a6nmtJAC4NM?si=XOJ4Gj_JWyaJDHKo"},{"Title":"The Everlasting Guilty Crown","Artist":"EGOIST","Anime":"Guilty Crown","link":"https://www.youtube.com/embed/-p0IjnBhG10?si=j3TaNavEWht7k_Yo"},{"Title":"Kaibutsu","Artist":"Yoasobi","Anime":"Beastar","link":"https://www.youtube.com/embed/dy90tA3TT1c?si=2fDLIEytkXrUUiE4"},{"Title":"This Game","Artist":"Konomi Suzuki","Anime":"No Game No life","link":"https://www.youtube.com/embed/lHabTfvMEIU?si=i_Mp6aQNa3B5GFT0"},{"Title":"Silhouette","Artist":"Kana-Boon","Anime":"Naruto","link":"https://www.youtube.com/embed/dlFA0Zq1k2A?si=usXAa1Fqne14QnsP"},{"Title":"re:re:","Artist":"Asian Kung-Fu Generation","Anime":"Boku Dake ga Inai Machi","link":"https://www.youtube.com/embed/_v_Voe5KD1M?si=558a1F4U95BNkTOJ"},{"Title":"Haruka Kanata","Artist":"Asian Kung-Fu Generation","Anime":"Naruto","link":"https://www.youtube.com/embed/nJ6A6GC_ki4?si=ZtOEnCs528ViuWDb"},{"Title":"Connect","Artist":"ClariS","Anime":"Madoka Magica","link":"https://www.youtube.com/embed/7EuTPTVpuNI?si=PF1XTDY62PO3hlKL"},{"Title":"Sorairo Days","Artist":"Shoko Nakagawa","Anime":"Tengen Toppa Gurren Lagann","link":"https://www.youtube.com/embed/PKRUKalbx3s?si=xG32NGO7DtEXEl4L"},{"Title":"Peace Sign","Artist":"Kenshi Yonezu","Anime":"Boku no Hero Akademia","link":"https://www.youtube.com/embed/9aJVr5tTTWk?si=Jcyw08zt0Pag4OhW"},{"Title":"Gurenge","Artist":"LiSA","Anime":"Kimetsu no Yaiba","link":"https://www.youtube.com/embed/x1FV6IrjZCY?si=81xIH8qzQSomtUcA"},{"Title":"Zakyou Sanka","Artist":"Aimer","Anime":"Kimetsu no Yaiba","link":"https://www.youtube.com/embed/tLQLa6lM3Us?si=HtTNyiwu3Rkd7_W9"},{"Title":"Unravel","Artist":"TK from Ling Toshite Shigure","Anime":"Tokyo Ghoul","link":"https://www.youtube.com/embed/Fve_lHIPa-I?si=Wnd9lGbH-fTrPGVo"},{"Title":"Again","Artist":"Yui","Anime":"Fullmetal Alchemist: Brotherhood","link":"https://www.youtube.com/embed/0NJCpJZ19n8?si=Y-s2X34Xg8lvZW_G"},{"Title":"Inferno","Artist":"Mrs. Green Apple","Anime":"Enen no Shoboutai","link":"https://www.youtube.com/embed/wfCcs0vLysk?si=5dTVBdGNI59YPmvL"},{"Title":"Irony","Artist":"ClariS","Anime":"Ore no Imouto ga Konnani Kawaii Wake ga Nai","link":"https://www.youtube.com/embed/XfjOSXQm5Eo?si=7GB8zZaxwZJxI0Xr"},{"Title":"Centimeter","Artist":"The Peggies","Anime":"Kanojo Okarishimasu","link":"https://www.youtube.com/embed/I1hLZ2OchZ8?si=90HRf9j1_e322XZD"},{"Title":"Tori no Uta","Artist":"Lia","Anime":"Air","link":"https://www.youtube.com/embed/NtJnix-9niI?si=gau665dj-tsO3_D3"},{"Title":"Colors","Artist":"FLOW","Anime":"Code Geass","link":"https://www.youtube.com/embed/FUH9S44D1BM?si=Zv_6aoSDX8KxCjAA"},{"Title":"Sign","Artist":"FLOW","Anime":"Naruto","link":"https://www.youtube.com/embed/qpi9YXaChHI?si=Ff5OgO6bexSsw2bp"},{"Title":"Hello, World!","Artist":"Bump of Chicken","Anime":"Kekkai Sensen","link":"https://www.youtube.com/embed/rOU4YiuaxAM?si=USpaFAYGiM1bXMdy"},{"Title":"1/2","Artist":"Makoto Kawamoto","Anime":"Rurouni Kenshin","link":"https://www.youtube.com/embed/IDPIe-b7NFM?si=uxmqnpgbfV-xxuif"},{"Title":"Guren no Yumiya","Artist":"Linked Horizon","Anime":"Attack on Titan","link":"https://www.youtube.com/embed/2B6nj38AdD0?si=Lu8q7BaSJMxiLpl-"},{"Title":"Sekai wa Koi ni Ochiteiru","Artist":"CHiCO with HoneyWorks","Anime":"Ao Haru Ride","link":"https://www.youtube.com/embed/wM4laths4-Y?si=NqRt-hLwq9OnX2nh"},{"Title":"staple stable","Artist":"Chiwa Saito","Anime":"Bakemonogatari","link":"https://www.youtube.com/embed/CXDUXjsU5ao?si=gvGRh_qQtAiyoMAX"},{"Title":"Seikan Hikou","Artist":"Megumi Nakajima","Anime":"Macross F","link":"https://www.youtube.com/embed/2CnvZOs8TWM?si=2Wpd8Lh8ZpXpva0q"},{"Title":"Lion","Artist":"May'n, Megumi Nakajima","Anime":"Macross F","link":"https://www.youtube.com/embed/fGGTf044UPI?si=RpG7Hxs5_boJ-lj-"},{"Title":"My Soul, Your Beats!","Artist":"Lia","Anime":"Angel Beats!","link":"https://www.youtube.com/embed/cuxDSaU0hKM?si=cKwa96-sH1O05tkr"},{"Title":"Cagayake! GIRLS","Artist":"Houkago Tea Time","Anime":"K-On!","link":"https://www.youtube.com/embed/ua02dloykJ4?si=3sLKvrMLTggfIPkI"},{"Title":"Flyers","Artist":"Bradio","Anime":"Death Parade","link":"https://www.youtube.com/embed/9wh8FgsEtNQ?si=DaI2Kga5v16RZ_Xv"},{"Title":"Kyouran Hey Kids!!","Artist":"The Oral Cigarettes","Anime":"Noragami","link":"https://www.youtube.com/embed/C-o8pTi6vd8?si=Aak4-ILuek32spG_"},{"Title":"Tabi no Tochuu","Artist":"Natsumi Kiyora","Anime":"Ookami to Koushinryou","link":"https://www.youtube.com/embed/9ydC2pUQpNQ?si=9nGmdZ7gztJ5cqwo"},{"Title":"Ciki Ciki Bam Bam","Artist":"QUEENDOM","Anime":"Paripi Koumei","link":"https://www.youtube.com/embed/bqjb332ufk8?si=GrPfnb43u0oWQfkh"},{"Title":"Bling-Bang-Bang-Born","Artist":"Creepy Nuts","Anime":"Mashle","link":"https://www.youtube.com/embed/mLW35YMzELE?si=zUkdvqVzfGSO_2Zf"},{"Title":"Hishoku no Sora","Artist":"Mami Kawada","Anime":"Shakugan no Shana","link":"https://www.youtube.com/embed/FNl1ud7KxtI?si=73aHa535MJxzbA4H"},{"Title":"Kaijuu","Artist":"Sakanaction","Anime":"Kaiju No. 8","link":"https://www.youtube.com/embed/a8dgNdJVluc?si=5XHvBq6KRQ-TiFz5"},{"Title":"Be a flower","Artist":"Ryokuoushoku Shakai","Anime":"Kusuriya no Hitorigoto","link":"https://www.youtube.com/embed/v-WcMQbXbKY"},{"Title":"Change the world","Artist":"V6","Anime":"InuYasha","link":"https://www.youtube.com/embed/Hok551J0Cbc?si=YInK7c2sl9M9LqCv"},{"Title":"The Blessing","Artist":"Yoasobi","Anime":"Mobile Suit Gundam: The Witch from Mercury","link":"https://www.youtube.com/embed/3eytpBOkOFA"},{"Title":"Brave shine","Artist":"Aimer","Anime":"Fate/stay night: Unlimited Blade Works","link":"https://www.youtube.com/embed/XeI8E20ZUE4"},{"Title":"Crossing field","Artist":"LiSA","Anime":"Sword Art Online","link":"https://www.youtube.com/embed/KId6eunoiWk?si=uX5mWOspvbQeVyNl"},{"Title":"Butterfly","Artist":"Koji Wada","Anime":"Digimon Adventure","link":"https://www.youtube.com/embed/32JTFI0alPk"},{"Title":"Spark Again","Artist":"Aimer","Anime":"Fire Force","link":"https://www.youtube.com/embed/dZ0Jt1zYj7g"},{"Title":"Otonoke","Artist":"Creepy Nuts","Anime":"Dandadan","link":"https://www.youtube.com/embed/wsKw_Astidg"},{"Title":"On the way","Artist":"Aina The End","Anime":"Dandadan","link":"https://www.youtube.com/embed/NLIGDjKBLY0"},{"Title":"Rolling star","Artist":"YUI","Anime":"Bleach","link":"https://www.youtube.com/embed/I3tkHg6SbrM?si=_GY8a_naeti3UcVX"},{"Title":"Hohoemi no bakudan","Artist":"Matsuko Mawatari","Anime":"Yu Yu Hakusho","link":"https://www.youtube.com/embed/9ZbVCs3EJUA?si=vj1XOZdO-V3Ne_kw"},{"Title":"Mixed Nuts","Artist":"Official HIGE DANdism","Anime":"SPY × FAMILY","link":"https://www.youtube.com/embed/CbH2F0kXgTY"},{"Title":"Duvet","Artist":"Bôa","Anime":"Serial Experiments Lain","link":"https://www.youtube.com/embed/Uoox9fpmDP0"},{"Title":"Yuusha","Artist":"Yoasobi","Anime":"Sousou no Frieren","link":"https://www.youtube.com/embed/OIBODIPC_8Y"},{"Title":"Hologram","Artist":"NICO Touches the Walls","Anime":"Fullmetal Alchemist Brotherhood","link":"https://www.youtube.com/embed/o71vyLnNtBo"},{"Title":"To the beginning","Artist":"Kalafina","Anime":"Fate/Zero","link":"https://www.youtube.com/embed/2psgnTAVz0E"},{"Title":"Click","Artist":"ClariS","Anime":"Nisekoi","link":"https://www.youtube.com/embed/7wkj5NCSzbU?si=ZmNCbJKVvnJzLrqx"},{"Title":"Step","Artist":"ClariS","Anime":"Nisekoi","link":"https://www.youtube.com/embed/Yqz_G25CjrE?si=qdaMlAY8qSoMEGIm"},{"Title":"Tsukiakari no michishirube","Artist":"Stereopony","Anime":"Darker than Black","link":"https://www.youtube.com/embed/sSLtqAr32rA"}];
+
+function getYoutubeId(url) {
+  if (!url) return "";
+  const match = url.match(/(?:embed\/|v=|vi\/|youtu\.be\/|\/v\/)([a-zA-Z0-9_-]{11})/);
+  if (match) return match[1];
+  const parts = url.split("?")[0].split("/");
+  return parts[parts.length - 1] || "";
+}
+
+function getThumb(url) {
+  const id = getYoutubeId(url);
+  return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : "";
+}
+
+let activeIndex = 0;
+
+function playSong(index, shouldAutoplay = true) {
+  if (index < 0 || index >= songs.length) return;
+  activeIndex = index;
+  const song = songs[index];
+  
+  // Prepare embed URL with autoplay
+  let embedUrl = song.link;
+  if (shouldAutoplay) {
+    const sep = embedUrl.includes("?") ? "&" : "?";
+    embedUrl = `${embedUrl}${sep}autoplay=1`;
+  }
+  
+  // Update iframe
+  const iframe = document.getElementById("mainVideoPlayer");
+  if (iframe) {
+    iframe.src = embedUrl;
+  }
+  
+  // Update banner info
+  const titleEl = document.getElementById("nowPlayingTitle");
+  if (titleEl) titleEl.textContent = song.Title;
+  
+  const animeEl = document.getElementById("nowPlayingAnime");
+  if (animeEl) animeEl.textContent = "📺 " + song.Anime;
+  
+  const artistEl = document.getElementById("nowPlayingArtist");
+  if (artistEl) artistEl.textContent = "🎤 " + song.Artist;
+  
+  const extLink = document.getElementById("ytExternalLink");
+  if (extLink) {
+    const ytWatchUrl = song.link.replace("/embed/", "/watch?v=").split("?")[0];
+    extLink.href = ytWatchUrl;
+  }
+  
+  // Update active state and live badge on cards
+  document.querySelectorAll(".song-card").forEach(card => {
+    const cardIdx = parseInt(card.getAttribute("data-index"), 10);
+    const icon = card.querySelector(".play-icon");
+    const pill = card.querySelector(".live-pill");
+    
+    if (cardIdx === index) {
+      card.classList.add("active");
+      if (icon) icon.textContent = "🔊";
+      if (pill) pill.style.display = "inline-block";
+    } else {
+      card.classList.remove("active");
+      if (icon) icon.textContent = "▶";
+      if (pill) pill.style.display = "none";
+    }
+  });
+}
+
+function renderSongList(list) {
+  const container = document.getElementById("songListContainer");
+  if (!container) return;
+  
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 48px 16px; color: #8b95b5;">
+        <p style="font-size: 1.1rem; margin-bottom: 6px;">❌ Lagu tidak ditemukan</p>
+        <span style="font-size: 0.85rem;">Coba cari dengan kata kunci judul, anime, atau artis lain.</span>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = list.map(song => {
+    const origIndex = songs.findIndex(s => s.Title === song.Title && s.Artist === song.Artist);
+    const isSelected = origIndex === activeIndex;
+    const thumb = getThumb(song.link);
+    return `
+      <div class="song-card ${isSelected ? 'active' : ''}" 
+           data-index="${origIndex}" 
+           onclick="playSong(${origIndex}, true)">
+        <div class="song-thumb-wrapper">
+          <img class="song-thumb" src="${thumb}" alt="${song.Title}" loading="lazy" />
+          <div class="play-badge-overlay">
+            <span class="play-icon">${isSelected ? '🔊' : '▶'}</span>
+          </div>
+        </div>
+        <div class="song-content">
+          <div class="song-title-row">
+            <span class="song-title">${song.Title}</span>
+            <span class="live-pill" style="display: ${isSelected ? 'inline-block' : 'none'};">PLAYING</span>
+          </div>
+          <div class="song-tags">
+            <span class="badge-anime" title="${song.Anime}">📺 ${song.Anime}</span>
+            <span class="badge-artist" title="${song.Artist}">🎤 ${song.Artist}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function filterSongs() {
+  const query = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+  if (!query) {
+    renderSongList(songs);
+    return;
+  }
+  const filtered = songs.filter(s => 
+    (s.Title && s.Title.toLowerCase().includes(query)) ||
+    (s.Anime && s.Anime.toLowerCase().includes(query)) ||
+    (s.Artist && s.Artist.toLowerCase().includes(query))
+  );
+  renderSongList(filtered);
+}
+
+function initPlayer() {
+  if (typeof songs !== 'undefined' && songs.length > 0) {
+    renderSongList(songs);
+    playSong(0, false); // Load first track into player without forcing audio on page load
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPlayer);
+} else {
+  initPlayer();
+}
+</script>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 
 
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden">
+
+</div>
+</div>
+</div>
+</div>
 
 
-<p>This is main page.</p>
-
-
-
-</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -534,6 +779,14 @@ ul.task-list li input[type="checkbox"] {
   </script>
 </div> <!-- /content -->
 
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (_event) {
+  if (window.bslib.Card) {
+    window.bslib.Card.initializeAllCards();
+  }
+}); 
+</script>
+  
 
 
 
