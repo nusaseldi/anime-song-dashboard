@@ -1,6 +1,269 @@
 ---
-title: ""
+title: "My anisong dashboard"
+format:
+  dashboard:
+    logo: "images/logo.png"
+    orientation: rows
+    css: styles.css
 ---
 
-This is main page.
+```{r, load_packages}
+#| echo: false
+#| include: false
+library(tidyverse)
+library(googlesheets4)
+library(jsonlite)
+```
 
+```{r, import_data}
+#| echo: false
+#| include: false
+gs4_deauth()
+df <- read_sheet("https://docs.google.com/spreadsheets/d/1uNYfeghUGPkpMYVwhLSkxx81_x8Syr7t9W8D4Ry4hag/edit?gid=0#gid=0")
+
+# Serialize to JSON for fast, reliable client-side interaction
+songs_json <- toJSON(df, dataframe = "rows")
+```
+
+## Row {height="18%"}
+
+```{r}
+#| content: valuebox
+#| title: "Total Anime Tracks"
+list(
+  icon = "music-note-beamed",
+  color = "primary",
+  value = nrow(df)
+)
+```
+
+```{r}
+#| content: valuebox
+#| title: "Anime Titles"
+list(
+  icon = "film",
+  color = "info",
+  value = n_distinct(df$Anime)
+)
+```
+
+```{r}
+#| content: valuebox
+#| title: "Featured Artists"
+list(
+  icon = "person-lines-fill",
+  color = "danger",
+  value = n_distinct(df$Artist)
+)
+```
+
+## Row {height="82%"}
+
+### Column {width="55%"}
+
+::: {.card}
+::: {.card-header}
+Song List
+:::
+
+::: {.card-body}
+
+```{=html}
+<div class="cyber-search-wrapper">
+  <input 
+    type="text" 
+    id="searchInput" 
+    class="cyber-search-input" 
+    placeholder="🔍 Cari judul lagu, anime, atau artis..." 
+    oninput="filterSongs()" 
+  />
+</div>
+
+<div class="cyber-list-container" id="songListContainer">
+  <!-- Song items will be rendered by JavaScript -->
+</div>
+```
+
+:::
+:::
+
+### Column {width="45%"}
+
+::: {.card}
+::: {.card-header}
+Music Player
+:::
+
+::: {.card-body}
+
+```{=html}
+<div class="player-outer">
+  <div class="player-frame-box">
+    <iframe 
+      id="mainVideoPlayer" 
+      src="" 
+      title="Music Player" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="now-playing-banner" id="nowPlayingBanner">
+    <div class="now-playing-header">
+      <span class="now-playing-tag">NOW PLAYING</span>
+      <a id="ytExternalLink" href="#" target="_blank" rel="noopener" style="color: #00f2fe; font-size: 0.82rem; text-decoration: none; font-weight: 600;">
+        YouTube Link ↗
+      </a>
+    </div>
+    <h3 class="now-playing-song-title" id="nowPlayingTitle">-</h3>
+    <div class="now-playing-details">
+      <span class="badge-anime" id="nowPlayingAnime" style="font-size: 0.85rem; padding: 4px 12px; max-width: none;">-</span>
+      <span class="badge-artist" id="nowPlayingArtist" style="font-size: 0.85rem; padding: 4px 12px; max-width: none;">-</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const songs = `r songs_json`;
+
+function getYoutubeId(url) {
+  if (!url) return "";
+  const match = url.match(/(?:embed\/|v=|vi\/|youtu\.be\/|\/v\/)([a-zA-Z0-9_-]{11})/);
+  if (match) return match[1];
+  const parts = url.split("?")[0].split("/");
+  return parts[parts.length - 1] || "";
+}
+
+function getThumb(url) {
+  const id = getYoutubeId(url);
+  return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : "";
+}
+
+let activeIndex = 0;
+
+function playSong(index, shouldAutoplay = true) {
+  if (index < 0 || index >= songs.length) return;
+  activeIndex = index;
+  const song = songs[index];
+  
+  // Prepare embed URL with autoplay
+  let embedUrl = song.link;
+  if (shouldAutoplay) {
+    const sep = embedUrl.includes("?") ? "&" : "?";
+    embedUrl = `${embedUrl}${sep}autoplay=1`;
+  }
+  
+  // Update iframe
+  const iframe = document.getElementById("mainVideoPlayer");
+  if (iframe) {
+    iframe.src = embedUrl;
+  }
+  
+  // Update banner info
+  const titleEl = document.getElementById("nowPlayingTitle");
+  if (titleEl) titleEl.textContent = song.Title;
+  
+  const animeEl = document.getElementById("nowPlayingAnime");
+  if (animeEl) animeEl.textContent = "📺 " + song.Anime;
+  
+  const artistEl = document.getElementById("nowPlayingArtist");
+  if (artistEl) artistEl.textContent = "🎤 " + song.Artist;
+  
+  const extLink = document.getElementById("ytExternalLink");
+  if (extLink) {
+    const ytWatchUrl = song.link.replace("/embed/", "/watch?v=").split("?")[0];
+    extLink.href = ytWatchUrl;
+  }
+  
+  // Update active state and live badge on cards
+  document.querySelectorAll(".song-card").forEach(card => {
+    const cardIdx = parseInt(card.getAttribute("data-index"), 10);
+    const icon = card.querySelector(".play-icon");
+    const pill = card.querySelector(".live-pill");
+    
+    if (cardIdx === index) {
+      card.classList.add("active");
+      if (icon) icon.textContent = "🔊";
+      if (pill) pill.style.display = "inline-block";
+    } else {
+      card.classList.remove("active");
+      if (icon) icon.textContent = "▶";
+      if (pill) pill.style.display = "none";
+    }
+  });
+}
+
+function renderSongList(list) {
+  const container = document.getElementById("songListContainer");
+  if (!container) return;
+  
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 48px 16px; color: #8b95b5;">
+        <p style="font-size: 1.1rem; margin-bottom: 6px;">❌ Lagu tidak ditemukan</p>
+        <span style="font-size: 0.85rem;">Coba cari dengan kata kunci judul, anime, atau artis lain.</span>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = list.map(song => {
+    const origIndex = songs.findIndex(s => s.Title === song.Title && s.Artist === song.Artist);
+    const isSelected = origIndex === activeIndex;
+    const thumb = getThumb(song.link);
+    return `
+      <div class="song-card ${isSelected ? 'active' : ''}" 
+           data-index="${origIndex}" 
+           onclick="playSong(${origIndex}, true)">
+        <div class="song-thumb-wrapper">
+          <img class="song-thumb" src="${thumb}" alt="${song.Title}" loading="lazy" />
+          <div class="play-badge-overlay">
+            <span class="play-icon">${isSelected ? '🔊' : '▶'}</span>
+          </div>
+        </div>
+        <div class="song-content">
+          <div class="song-title-row">
+            <span class="song-title">${song.Title}</span>
+            <span class="live-pill" style="display: ${isSelected ? 'inline-block' : 'none'};">PLAYING</span>
+          </div>
+          <div class="song-tags">
+            <span class="badge-anime" title="${song.Anime}">📺 ${song.Anime}</span>
+            <span class="badge-artist" title="${song.Artist}">🎤 ${song.Artist}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function filterSongs() {
+  const query = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+  if (!query) {
+    renderSongList(songs);
+    return;
+  }
+  const filtered = songs.filter(s => 
+    (s.Title && s.Title.toLowerCase().includes(query)) ||
+    (s.Anime && s.Anime.toLowerCase().includes(query)) ||
+    (s.Artist && s.Artist.toLowerCase().includes(query))
+  );
+  renderSongList(filtered);
+}
+
+function initPlayer() {
+  if (typeof songs !== 'undefined' && songs.length > 0) {
+    renderSongList(songs);
+    playSong(0, false); // Load first track into player without forcing audio on page load
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPlayer);
+} else {
+  initPlayer();
+}
+</script>
+```
+
+:::
+:::
