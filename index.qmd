@@ -21,15 +21,18 @@ library(jsonlite)
 gs4_deauth()
 sheet_url <- "https://docs.google.com/spreadsheets/d/1uNYfeghUGPkpMYVwhLSkxx81_x8Syr7t9W8D4Ry4hag/edit?gid=0#gid=0"
 
-df_op <- read_sheet(sheet_url, sheet = "OP") %>% mutate(Type = "OP")
-df_ed <- read_sheet(sheet_url, sheet = "ED") %>% mutate(Type = "ED")
+df_op <- read_sheet(sheet_url, sheet = "OP", col_types = "cccc") %>% mutate(Type = "OP")
+df_ed <- read_sheet(sheet_url, sheet = "ED", col_types = "cccc") %>% mutate(Type = "ED")
 df <- bind_rows(df_op, df_ed) %>%
   mutate(
+    Artist = ifelse(is.na(Artist) | trimws(Artist) == "", "Unknown Artist", trimws(Artist)),
+    Title = ifelse(is.na(Title) | trimws(Title) == "", "Untitled", trimws(Title)),
+    Anime = ifelse(is.na(Anime) | trimws(Anime) == "", "Anime", trimws(Anime)),
     Artist = case_when(
-      tolower(trimws(Artist)) == "yoasobi" ~ "Yoasobi",
-      tolower(trimws(Artist)) == "supercell" ~ "Supercell",
-      tolower(trimws(Artist)) == "yui" ~ "YUI",
-      TRUE ~ trimws(Artist)
+      tolower(Artist) == "yoasobi" ~ "Yoasobi",
+      tolower(Artist) == "supercell" ~ "Supercell",
+      tolower(Artist) == "yui" ~ "YUI",
+      TRUE ~ Artist
     )
   )
 
