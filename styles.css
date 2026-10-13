@@ -328,22 +328,22 @@ body, .quarto-dashboard {
   50% { opacity: 0.75; transform: scale(0.95); }
 }
 
-/* Cyber Player Section */
 .player-outer {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px !important;
   height: 100%;
 }
 
 .player-frame-box {
   position: relative;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   background: #000;
   border: 2px solid rgba(0, 242, 254, 0.4);
-  box-shadow: 0 0 30px rgba(0, 242, 254, 0.25), 0 8px 30px rgba(0, 0, 0, 0.6);
-  aspect-ratio: 16 / 9;
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.2), 0 8px 24px rgba(0, 0, 0, 0.6);
+  flex: 1 1 auto !important;
+  min-height: 380px !important;
   width: 100%;
 }
 
@@ -356,62 +356,95 @@ body, .quarto-dashboard {
   border: none;
 }
 
-/* Now Playing Info Banner */
+/* Now Playing Info Banner (Compact Modern) */
 .now-playing-banner {
   background: linear-gradient(135deg, rgba(19, 24, 46, 0.95) 0%, rgba(28, 18, 38, 0.95) 100%);
   border: 1px solid rgba(255, 42, 95, 0.35);
-  border-radius: 14px;
-  padding: 16px 20px;
+  border-radius: 12px;
+  padding: 10px 14px !important;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 42, 95, 0.15);
+  gap: 6px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 42, 95, 0.12);
+  text-align: center;
+  flex-shrink: 0 !important;
 }
 
 .now-playing-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .now-playing-tag {
-  font-size: 0.75rem;
+  font-size: 0.68rem !important;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   color: var(--neon-pink);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .now-playing-tag::before {
   content: '';
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: var(--neon-pink);
   border-radius: 50%;
-  box-shadow: 0 0 8px var(--neon-pink);
+  box-shadow: 0 0 6px var(--neon-pink);
 }
 
 .now-playing-song-title {
   font-family: var(--font-heading);
-  font-size: 1.45rem;
-  font-weight: 800;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
   color: #ffffff;
-  margin: 6px 0;
-  letter-spacing: 0.3px;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  margin: 2px 0 !important;
+  letter-spacing: 0.2px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
   text-align: center !important;
   width: 100% !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .now-playing-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 8px !important;
+  align-items: center !important;
   justify-content: center !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+}
+
+.now-playing-details::-webkit-scrollbar {
+  display: none !important;
+}
+
+.now-playing-details .badge-anime,
+.now-playing-details .badge-artist,
+.now-playing-details .badge-type {
+  font-size: 0.72rem !important;
+  padding: 3px 9px !important;
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+}
+
+/* Tracklist Header Wrapper */
+.tracklist-header-wrapper {
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+  width: 100% !important;
 }
 
 /* Custom Search Box */
@@ -419,7 +452,7 @@ body, .quarto-dashboard {
   flex-shrink: 0 !important;
   flex-grow: 0 !important;
   width: 100% !important;
-  margin-bottom: 16px !important;
+  margin-bottom: 0 !important;
   position: relative !important;
   z-index: 10 !important;
 }
@@ -468,4 +501,283 @@ body, .quarto-dashboard {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--neon-cyan);
   box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* ==========================================================================
+   Filter Chips (Opening / Ending / All)
+   ========================================================================== */
+.filter-chips-container {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  margin-bottom: 0 !important;
+  flex-shrink: 0 !important;
+  scrollbar-width: none !important;
+}
+
+.filter-chips-container::-webkit-scrollbar {
+  display: none !important;
+}
+
+.filter-chip {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  background: rgba(18, 23, 44, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.filter-chip:hover {
+  background: var(--bg-card-hover);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.filter-chip.active {
+  background: rgba(0, 242, 254, 0.15);
+  border-color: var(--neon-cyan);
+  color: #fff;
+  box-shadow: 0 0 14px var(--neon-cyan-glow);
+}
+
+.filter-chip.op-chip.active {
+  background: rgba(0, 242, 254, 0.18);
+  border-color: var(--neon-cyan);
+  color: #00f2fe;
+  box-shadow: 0 0 14px var(--neon-cyan-glow);
+}
+
+.filter-chip.ed-chip.active {
+  background: rgba(199, 125, 255, 0.18);
+  border-color: #c77dff;
+  color: #c77dff;
+  box-shadow: 0 0 14px rgba(199, 125, 255, 0.4);
+}
+
+/* ==========================================================================
+   Type Badges on Cards (OP vs ED)
+   ========================================================================== */
+.badge-type {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+}
+
+.badge-op {
+  background: rgba(0, 242, 254, 0.15);
+  color: #00f2fe;
+  border: 1px solid rgba(0, 242, 254, 0.4);
+}
+
+.badge-ed {
+  background: rgba(199, 125, 255, 0.15);
+  color: #d896ff;
+  border: 1px solid rgba(199, 125, 255, 0.4);
+}
+
+/* ==========================================================================
+   Player Controls Bar (Prev, Next, Shuffle, Autoplay) - Compact Modern
+   ========================================================================== */
+.player-controls-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  margin-top: 6px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  scrollbar-width: none !important;
+}
+
+.player-controls-bar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.btn-player-ctrl {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  background: rgba(18, 23, 44, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  font-family: var(--font-heading);
+  font-size: 0.74rem !important;
+  font-weight: 600;
+  padding: 5px 10px !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.btn-player-ctrl:hover {
+  background: rgba(26, 32, 60, 0.95);
+  border-color: rgba(0, 242, 254, 0.5);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 242, 254, 0.2);
+}
+
+.btn-player-ctrl:active {
+  transform: translateY(0);
+}
+
+.btn-toggle-active-cyan {
+  background: rgba(0, 242, 254, 0.18) !important;
+  border-color: var(--neon-cyan) !important;
+  color: #00f2fe !important;
+  box-shadow: 0 0 14px var(--neon-cyan-glow) !important;
+}
+
+.btn-toggle-active-pink {
+  background: rgba(255, 42, 95, 0.18) !important;
+  border-color: var(--neon-pink) !important;
+  color: #ff668f !important;
+  box-shadow: 0 0 14px var(--neon-pink-glow) !important;
+}
+
+/* ==========================================================================
+   Responsive Design Enhancements (Mobile, Tablet, Desktop)
+   ========================================================================== */
+
+/* Tablet & Mobile Screens (<= 992px) */
+@media (max-width: 992px) {
+  .bslib-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  
+  .player-frame-box {
+    min-height: 280px !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .cyber-list-container {
+    max-height: 500px !important;
+  }
+}
+
+/* Mobile Screens (<= 768px) */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 8px 12px !important;
+  }
+  
+  .navbar-brand {
+    font-size: 1.05rem !important;
+  }
+  
+  .value-box-value, .bslib-value-box .value {
+    font-size: 1.6rem !important;
+  }
+
+  .value-box-title, .bslib-value-box .title {
+    font-size: 0.72rem !important;
+  }
+  
+  .card-body {
+    padding: 10px !important;
+  }
+
+  .player-frame-box {
+    min-height: 200px !important;
+    max-height: 54vw !important;
+    aspect-ratio: 16 / 9 !important;
+    border-radius: 12px !important;
+  }
+
+  .now-playing-banner {
+    padding: 8px 10px !important;
+    gap: 4px !important;
+  }
+
+  .now-playing-song-title {
+    font-size: 1rem !important;
+  }
+
+  .cyber-list-container {
+    max-height: 420px !important;
+    gap: 8px !important;
+  }
+
+  .song-card {
+    padding: 8px 10px !important;
+    gap: 10px !important;
+  }
+
+  .song-thumb-wrapper {
+    width: 74px !important;
+    height: 46px !important;
+  }
+
+  .song-title {
+    font-size: 0.88rem !important;
+  }
+
+  .badge-anime, .badge-artist, .badge-type {
+    font-size: 0.65rem !important;
+    padding: 2px 6px !important;
+    max-width: 130px !important;
+  }
+
+  .filter-chips-container {
+    padding-bottom: 2px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .filter-chip {
+    padding: 5px 11px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .player-controls-bar {
+    gap: 5px !important;
+    padding-top: 6px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .btn-player-ctrl {
+    padding: 5px 8px !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Very Small Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  .song-thumb-wrapper {
+    width: 66px !important;
+    height: 42px !important;
+  }
+
+  .badge-anime, .badge-artist {
+    max-width: 105px !important;
+  }
 }
