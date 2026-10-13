@@ -132,7 +132,7 @@ grid-auto-rows: minmax(0, 1fr);">
 Total Anime Tracks
 </p>
 <p class="value-box-value">
-67
+86
 </p>
 </div>
 </div>
@@ -148,7 +148,7 @@ Total Anime Tracks
 Anime Titles
 </p>
 <p class="value-box-value">
-57
+68
 </p>
 </div>
 </div>
@@ -164,7 +164,7 @@ Anime Titles
 Featured Artists
 </p>
 <p class="value-box-value">
-53
+67
 </p>
 </div>
 </div>
@@ -179,8 +179,22 @@ grid-auto-rows: minmax(0, 1fr);">
 <p>Song List</p>
 </div>
 <div class="card-body html-fill-item html-fill-container">
-<div class="cyber-search-wrapper html-fill-item html-fill-container">
-  <input type="text" id="searchInput" class="cyber-search-input" placeholder="🔍 Cari judul lagu, anime, atau artis..." oninput="filterSongs()">
+<div class="tracklist-header-wrapper html-fill-item html-fill-container">
+  <div class="cyber-search-wrapper html-fill-item html-fill-container">
+    <input type="text" id="searchInput" class="cyber-search-input" placeholder="🔍 Cari judul lagu, anime, atau artis..." oninput="handleFilterChange()">
+  </div>
+
+  <div class="filter-chips-container html-fill-item html-fill-container" id="filterChipsContainer">
+    <button class="filter-chip active" id="chip-ALL" data-type="ALL" onclick="setTypeFilter('ALL')">
+      ✨ Semua (<span id="count-ALL">0</span>)
+    </button>
+    <button class="filter-chip op-chip" id="chip-OP" data-type="OP" onclick="setTypeFilter('OP')">
+      🎬 Opening (<span id="count-OP">0</span>)
+    </button>
+    <button class="filter-chip ed-chip" id="chip-ED" data-type="ED" onclick="setTypeFilter('ED')">
+      🌙 Ending (<span id="count-ED">0</span>)
+    </button>
+  </div>
 </div>
 
 <div class="cyber-list-container html-fill-item html-fill-container" id="songListContainer">
@@ -200,35 +214,70 @@ grid-auto-rows: minmax(0, 1fr);">
 </div>
 <div class="card-body html-fill-item html-fill-container">
 <div class="player-outer html-fill-item html-fill-container">
-  <div class="player-frame-box html-fill-item html-fill-container">
-    <iframe id="mainVideoPlayer" src="" title="Music Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+  <div class="player-frame-box html-fill-item html-fill-container" id="playerFrameBox">
+    <iframe id="mainVideoPlayer" src="" title="Music Player" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
     </iframe>
   </div>
 
   <div class="now-playing-banner html-fill-item html-fill-container" id="nowPlayingBanner">
     <div class="now-playing-header html-fill-item html-fill-container">
       <span class="now-playing-tag">NOW PLAYING</span>
-      <a id="ytExternalLink" href="#" target="_blank" rel="noopener" style="color: #00f2fe; font-size: 0.82rem; text-decoration: none; font-weight: 600;">
-        YouTube Link ↗
-      </a>
     </div>
     <h3 class="now-playing-song-title" id="nowPlayingTitle">-</h3>
     <div class="now-playing-details html-fill-item html-fill-container">
-      <span class="badge-anime" id="nowPlayingAnime" style="font-size: 0.85rem; padding: 4px 12px; max-width: none;">-</span>
-      <span class="badge-artist" id="nowPlayingArtist" style="font-size: 0.85rem; padding: 4px 12px; max-width: none;">-</span>
+      <span id="nowPlayingTypeBadge" class="badge-type badge-op">🎬 OP</span>
+      <span class="badge-anime" id="nowPlayingAnime">-</span>
+      <span class="badge-artist" id="nowPlayingArtist">-</span>
+    </div>
+
+    <!-- Player Controls Bar -->
+    <div class="player-controls-bar html-fill-item html-fill-container">
+      <button class="btn-player-ctrl" onclick="playPrevSong()" title="Lagu Sebelumnya">
+        ⏮️ Prev
+      </button>
+      <button class="btn-player-ctrl" onclick="playNextSong()" title="Lagu Berikutnya">
+        Next ⏭️
+      </button>
+      <button id="btnShuffleToggle" class="btn-player-ctrl" onclick="toggleShuffle()" title="Acak Urutan Lagu">
+        🔀 Random: <span id="shuffleStateText">OFF</span>
+      </button>
+      <button id="btnAutoplayToggle" class="btn-player-ctrl btn-toggle-active-cyan" onclick="toggleAutoplay()" title="Otomatis Putar Lagu Berikutnya">
+        🔁 Autoplay: <span id="autoplayStateText">ON</span>
+      </button>
     </div>
   </div>
 </div>
 
 <script>
-const songs = [{"Title":"Idol","Artist":"Yoasobi","Anime":"Oshi No Ko","link":"https://www.youtube.com/embed/ZRtdQ81jPUQ"},{"Title":"Cruel Angel's Thesis","Artist":"Yoko Takahashi","Anime":"Neon Genesis Evangelion","link":"https://www.youtube.com/embed/o6wtDPVkKqI?si=5XaBqJvIjMiyLugZ"},{"Title":"Blue Bird","Artist":"Ikimonogakari","Anime":"Naruto","link":"https://www.youtube.com/embed/KpsJWFuVTdI?si=1NhpsYLr4KWz-pwz"},{"Title":"Kawaki Wo Ameku","Artist":"Minami","Anime":"Domestic Kanojo","link":"https://www.youtube.com/embed/0YF8vecQWYs?si=OExWlJg7G3Gp1Yrw"},{"Title":"Sobakasu","Artist":"Judy And Mary","Anime":"Rurouni Kenshin","link":"https://www.youtube.com/embed/0DBkXcDU270?si=rh4CQMDhMBHJ7aL_"},{"Title":"Oath Sign","Artist":"LiSA","Anime":"Fate/Zero","link":"https://www.youtube.com/embed/GJ4yehnerHQ?si=4WVPepWq92I-S7bV"},{"Title":"Hikaru Nara","Artist":"Goose House","Anime":"Shigatsu wa Kimi no Uso","link":"https://www.youtube.com/embed/UpmSK1GPlBc?si=7YqEVnBGhDe7IiGD"},{"Title":"My Dearest","Artist":"Supercell","Anime":"Guilty Crown","link":"https://www.youtube.com/embed/a6nmtJAC4NM?si=XOJ4Gj_JWyaJDHKo"},{"Title":"The Everlasting Guilty Crown","Artist":"EGOIST","Anime":"Guilty Crown","link":"https://www.youtube.com/embed/-p0IjnBhG10?si=j3TaNavEWht7k_Yo"},{"Title":"Kaibutsu","Artist":"Yoasobi","Anime":"Beastar","link":"https://www.youtube.com/embed/dy90tA3TT1c?si=2fDLIEytkXrUUiE4"},{"Title":"This Game","Artist":"Konomi Suzuki","Anime":"No Game No life","link":"https://www.youtube.com/embed/lHabTfvMEIU?si=i_Mp6aQNa3B5GFT0"},{"Title":"Silhouette","Artist":"Kana-Boon","Anime":"Naruto","link":"https://www.youtube.com/embed/dlFA0Zq1k2A?si=usXAa1Fqne14QnsP"},{"Title":"re:re:","Artist":"Asian Kung-Fu Generation","Anime":"Boku Dake ga Inai Machi","link":"https://www.youtube.com/embed/_v_Voe5KD1M?si=558a1F4U95BNkTOJ"},{"Title":"Haruka Kanata","Artist":"Asian Kung-Fu Generation","Anime":"Naruto","link":"https://www.youtube.com/embed/nJ6A6GC_ki4?si=ZtOEnCs528ViuWDb"},{"Title":"Connect","Artist":"ClariS","Anime":"Madoka Magica","link":"https://www.youtube.com/embed/7EuTPTVpuNI?si=PF1XTDY62PO3hlKL"},{"Title":"Sorairo Days","Artist":"Shoko Nakagawa","Anime":"Tengen Toppa Gurren Lagann","link":"https://www.youtube.com/embed/PKRUKalbx3s?si=xG32NGO7DtEXEl4L"},{"Title":"Peace Sign","Artist":"Kenshi Yonezu","Anime":"Boku no Hero Akademia","link":"https://www.youtube.com/embed/9aJVr5tTTWk?si=Jcyw08zt0Pag4OhW"},{"Title":"Gurenge","Artist":"LiSA","Anime":"Kimetsu no Yaiba","link":"https://www.youtube.com/embed/x1FV6IrjZCY?si=81xIH8qzQSomtUcA"},{"Title":"Zakyou Sanka","Artist":"Aimer","Anime":"Kimetsu no Yaiba","link":"https://www.youtube.com/embed/tLQLa6lM3Us?si=HtTNyiwu3Rkd7_W9"},{"Title":"Unravel","Artist":"TK from Ling Toshite Shigure","Anime":"Tokyo Ghoul","link":"https://www.youtube.com/embed/Fve_lHIPa-I?si=Wnd9lGbH-fTrPGVo"},{"Title":"Again","Artist":"Yui","Anime":"Fullmetal Alchemist: Brotherhood","link":"https://www.youtube.com/embed/0NJCpJZ19n8?si=Y-s2X34Xg8lvZW_G"},{"Title":"Inferno","Artist":"Mrs. Green Apple","Anime":"Enen no Shoboutai","link":"https://www.youtube.com/embed/wfCcs0vLysk?si=5dTVBdGNI59YPmvL"},{"Title":"Irony","Artist":"ClariS","Anime":"Ore no Imouto ga Konnani Kawaii Wake ga Nai","link":"https://www.youtube.com/embed/XfjOSXQm5Eo?si=7GB8zZaxwZJxI0Xr"},{"Title":"Centimeter","Artist":"The Peggies","Anime":"Kanojo Okarishimasu","link":"https://www.youtube.com/embed/I1hLZ2OchZ8?si=90HRf9j1_e322XZD"},{"Title":"Tori no Uta","Artist":"Lia","Anime":"Air","link":"https://www.youtube.com/embed/NtJnix-9niI?si=gau665dj-tsO3_D3"},{"Title":"Colors","Artist":"FLOW","Anime":"Code Geass","link":"https://www.youtube.com/embed/FUH9S44D1BM?si=Zv_6aoSDX8KxCjAA"},{"Title":"Sign","Artist":"FLOW","Anime":"Naruto","link":"https://www.youtube.com/embed/qpi9YXaChHI?si=Ff5OgO6bexSsw2bp"},{"Title":"Hello, World!","Artist":"Bump of Chicken","Anime":"Kekkai Sensen","link":"https://www.youtube.com/embed/rOU4YiuaxAM?si=USpaFAYGiM1bXMdy"},{"Title":"1/2","Artist":"Makoto Kawamoto","Anime":"Rurouni Kenshin","link":"https://www.youtube.com/embed/IDPIe-b7NFM?si=uxmqnpgbfV-xxuif"},{"Title":"Guren no Yumiya","Artist":"Linked Horizon","Anime":"Attack on Titan","link":"https://www.youtube.com/embed/2B6nj38AdD0?si=Lu8q7BaSJMxiLpl-"},{"Title":"Sekai wa Koi ni Ochiteiru","Artist":"CHiCO with HoneyWorks","Anime":"Ao Haru Ride","link":"https://www.youtube.com/embed/wM4laths4-Y?si=NqRt-hLwq9OnX2nh"},{"Title":"staple stable","Artist":"Chiwa Saito","Anime":"Bakemonogatari","link":"https://www.youtube.com/embed/CXDUXjsU5ao?si=gvGRh_qQtAiyoMAX"},{"Title":"Seikan Hikou","Artist":"Megumi Nakajima","Anime":"Macross F","link":"https://www.youtube.com/embed/2CnvZOs8TWM?si=2Wpd8Lh8ZpXpva0q"},{"Title":"Lion","Artist":"May'n, Megumi Nakajima","Anime":"Macross F","link":"https://www.youtube.com/embed/fGGTf044UPI?si=RpG7Hxs5_boJ-lj-"},{"Title":"My Soul, Your Beats!","Artist":"Lia","Anime":"Angel Beats!","link":"https://www.youtube.com/embed/cuxDSaU0hKM?si=cKwa96-sH1O05tkr"},{"Title":"Cagayake! GIRLS","Artist":"Houkago Tea Time","Anime":"K-On!","link":"https://www.youtube.com/embed/ua02dloykJ4?si=3sLKvrMLTggfIPkI"},{"Title":"Flyers","Artist":"Bradio","Anime":"Death Parade","link":"https://www.youtube.com/embed/9wh8FgsEtNQ?si=DaI2Kga5v16RZ_Xv"},{"Title":"Kyouran Hey Kids!!","Artist":"The Oral Cigarettes","Anime":"Noragami","link":"https://www.youtube.com/embed/C-o8pTi6vd8?si=Aak4-ILuek32spG_"},{"Title":"Tabi no Tochuu","Artist":"Natsumi Kiyora","Anime":"Ookami to Koushinryou","link":"https://www.youtube.com/embed/9ydC2pUQpNQ?si=9nGmdZ7gztJ5cqwo"},{"Title":"Ciki Ciki Bam Bam","Artist":"QUEENDOM","Anime":"Paripi Koumei","link":"https://www.youtube.com/embed/bqjb332ufk8?si=GrPfnb43u0oWQfkh"},{"Title":"Bling-Bang-Bang-Born","Artist":"Creepy Nuts","Anime":"Mashle","link":"https://www.youtube.com/embed/mLW35YMzELE?si=zUkdvqVzfGSO_2Zf"},{"Title":"Hishoku no Sora","Artist":"Mami Kawada","Anime":"Shakugan no Shana","link":"https://www.youtube.com/embed/FNl1ud7KxtI?si=73aHa535MJxzbA4H"},{"Title":"Kaijuu","Artist":"Sakanaction","Anime":"Kaiju No. 8","link":"https://www.youtube.com/embed/a8dgNdJVluc?si=5XHvBq6KRQ-TiFz5"},{"Title":"Be a flower","Artist":"Ryokuoushoku Shakai","Anime":"Kusuriya no Hitorigoto","link":"https://www.youtube.com/embed/v-WcMQbXbKY"},{"Title":"Change the world","Artist":"V6","Anime":"InuYasha","link":"https://www.youtube.com/embed/Hok551J0Cbc?si=YInK7c2sl9M9LqCv"},{"Title":"The Blessing","Artist":"Yoasobi","Anime":"Mobile Suit Gundam: The Witch from Mercury","link":"https://www.youtube.com/embed/3eytpBOkOFA"},{"Title":"Brave shine","Artist":"Aimer","Anime":"Fate/stay night: Unlimited Blade Works","link":"https://www.youtube.com/embed/XeI8E20ZUE4"},{"Title":"Crossing field","Artist":"LiSA","Anime":"Sword Art Online","link":"https://www.youtube.com/embed/KId6eunoiWk?si=uX5mWOspvbQeVyNl"},{"Title":"Butterfly","Artist":"Koji Wada","Anime":"Digimon Adventure","link":"https://www.youtube.com/embed/32JTFI0alPk"},{"Title":"Spark Again","Artist":"Aimer","Anime":"Fire Force","link":"https://www.youtube.com/embed/dZ0Jt1zYj7g"},{"Title":"Otonoke","Artist":"Creepy Nuts","Anime":"Dandadan","link":"https://www.youtube.com/embed/wsKw_Astidg"},{"Title":"On the way","Artist":"Aina The End","Anime":"Dandadan","link":"https://www.youtube.com/embed/NLIGDjKBLY0"},{"Title":"Rolling star","Artist":"YUI","Anime":"Bleach","link":"https://www.youtube.com/embed/I3tkHg6SbrM?si=_GY8a_naeti3UcVX"},{"Title":"Hohoemi no bakudan","Artist":"Matsuko Mawatari","Anime":"Yu Yu Hakusho","link":"https://www.youtube.com/embed/9ZbVCs3EJUA?si=vj1XOZdO-V3Ne_kw"},{"Title":"Mixed Nuts","Artist":"Official HIGE DANdism","Anime":"SPY × FAMILY","link":"https://www.youtube.com/embed/CbH2F0kXgTY"},{"Title":"Duvet","Artist":"Bôa","Anime":"Serial Experiments Lain","link":"https://www.youtube.com/embed/Uoox9fpmDP0"},{"Title":"Yuusha","Artist":"Yoasobi","Anime":"Sousou no Frieren","link":"https://www.youtube.com/embed/OIBODIPC_8Y"},{"Title":"Hologram","Artist":"NICO Touches the Walls","Anime":"Fullmetal Alchemist Brotherhood","link":"https://www.youtube.com/embed/o71vyLnNtBo"},{"Title":"To the beginning","Artist":"Kalafina","Anime":"Fate/Zero","link":"https://www.youtube.com/embed/2psgnTAVz0E"},{"Title":"Click","Artist":"ClariS","Anime":"Nisekoi","link":"https://www.youtube.com/embed/7wkj5NCSzbU?si=ZmNCbJKVvnJzLrqx"},{"Title":"Step","Artist":"ClariS","Anime":"Nisekoi","link":"https://www.youtube.com/embed/Yqz_G25CjrE?si=qdaMlAY8qSoMEGIm"},{"Title":"Tsukiakari no michishirube","Artist":"Stereopony","Anime":"Darker than Black","link":"https://www.youtube.com/embed/sSLtqAr32rA"},{"Title":"Shayou","Artist":"Yorushika","Anime":"Boku no Kokoro no Yabai Yatsu","link":"https://www.youtube.com/embed/bqigIHMComE?si=k8ZQPu8Xi6A-Ul__"},{"Title":"Yuzurenai Negai","Artist":"Naomi Tamura","Anime":"Magic Knight Rayearth","link":"https://www.youtube.com/embed/W8ONcV-AaVU?si=xelEs-9VH1S3Oezi"},{"Title":"Kyoukai no Kanata","Artist":"Minori Chihara","Anime":"Kyoukai no Kanata","link":"https://www.youtube.com/embed/Ztt4JKdbygw?si=0otUp0ai-QGyrejZ"},{"Title":"Yasashisano Riyuu","Artist":"ChouCho","Anime":"Hyouka","link":"https://www.youtube.com/embed/0hJiMN4Csjw?si=Mgu6hPuooB51Fz96"},{"Title":"Kokoro no Chizu","Artist":"BOYSTYLE","Anime":"One Piece","link":"https://www.youtube.com/embed/RUZCdggY34c?si=hJGrWMzh-yq5nmZJ"}];
+const songs = [{"Title":"Idol","Artist":"Yoasobi","Anime":"Oshi No Ko","link":"https://www.youtube.com/embed/ZRtdQ81jPUQ","Type":"OP"},{"Title":"Cruel Angel's Thesis","Artist":"Yoko Takahashi","Anime":"Neon Genesis Evangelion","link":"https://www.youtube.com/embed/o6wtDPVkKqI?si=5XaBqJvIjMiyLugZ","Type":"OP"},{"Title":"Blue Bird","Artist":"Ikimonogakari","Anime":"Naruto","link":"https://www.youtube.com/embed/KpsJWFuVTdI?si=1NhpsYLr4KWz-pwz","Type":"OP"},{"Title":"Kawaki Wo Ameku","Artist":"Minami","Anime":"Domestic Kanojo","link":"https://www.youtube.com/embed/0YF8vecQWYs?si=OExWlJg7G3Gp1Yrw","Type":"OP"},{"Title":"Sobakasu","Artist":"Judy And Mary","Anime":"Rurouni Kenshin","link":"https://www.youtube.com/embed/0DBkXcDU270?si=rh4CQMDhMBHJ7aL_","Type":"OP"},{"Title":"Oath Sign","Artist":"LiSA","Anime":"Fate/Zero","link":"https://www.youtube.com/embed/GJ4yehnerHQ?si=4WVPepWq92I-S7bV","Type":"OP"},{"Title":"Hikaru Nara","Artist":"Goose House","Anime":"Shigatsu wa Kimi no Uso","link":"https://www.youtube.com/embed/UpmSK1GPlBc?si=7YqEVnBGhDe7IiGD","Type":"OP"},{"Title":"My Dearest","Artist":"Supercell","Anime":"Guilty Crown","link":"https://www.youtube.com/embed/a6nmtJAC4NM?si=XOJ4Gj_JWyaJDHKo","Type":"OP"},{"Title":"The Everlasting Guilty Crown","Artist":"EGOIST","Anime":"Guilty Crown","link":"https://www.youtube.com/embed/-p0IjnBhG10?si=j3TaNavEWht7k_Yo","Type":"OP"},{"Title":"Kaibutsu","Artist":"Yoasobi","Anime":"Beastar","link":"https://www.youtube.com/embed/dy90tA3TT1c?si=2fDLIEytkXrUUiE4","Type":"OP"},{"Title":"This Game","Artist":"Konomi Suzuki","Anime":"No Game No life","link":"https://www.youtube.com/embed/lHabTfvMEIU?si=i_Mp6aQNa3B5GFT0","Type":"OP"},{"Title":"Silhouette","Artist":"Kana-Boon","Anime":"Naruto","link":"https://www.youtube.com/embed/dlFA0Zq1k2A?si=usXAa1Fqne14QnsP","Type":"OP"},{"Title":"re:re:","Artist":"Asian Kung-Fu Generation","Anime":"Boku Dake ga Inai Machi","link":"https://www.youtube.com/embed/_v_Voe5KD1M?si=558a1F4U95BNkTOJ","Type":"OP"},{"Title":"Haruka Kanata","Artist":"Asian Kung-Fu Generation","Anime":"Naruto","link":"https://www.youtube.com/embed/nJ6A6GC_ki4?si=ZtOEnCs528ViuWDb","Type":"OP"},{"Title":"Connect","Artist":"ClariS","Anime":"Madoka Magica","link":"https://www.youtube.com/embed/7EuTPTVpuNI?si=PF1XTDY62PO3hlKL","Type":"OP"},{"Title":"Sorairo Days","Artist":"Shoko Nakagawa","Anime":"Tengen Toppa Gurren Lagann","link":"https://www.youtube.com/embed/PKRUKalbx3s?si=xG32NGO7DtEXEl4L","Type":"OP"},{"Title":"Peace Sign","Artist":"Kenshi Yonezu","Anime":"Boku no Hero Akademia","link":"https://www.youtube.com/embed/9aJVr5tTTWk?si=Jcyw08zt0Pag4OhW","Type":"OP"},{"Title":"Gurenge","Artist":"LiSA","Anime":"Kimetsu no Yaiba","link":"https://www.youtube.com/embed/x1FV6IrjZCY?si=81xIH8qzQSomtUcA","Type":"OP"},{"Title":"Zakyou Sanka","Artist":"Aimer","Anime":"Kimetsu no Yaiba","link":"https://www.youtube.com/embed/tLQLa6lM3Us?si=HtTNyiwu3Rkd7_W9","Type":"OP"},{"Title":"Unravel","Artist":"TK from Ling Toshite Shigure","Anime":"Tokyo Ghoul","link":"https://www.youtube.com/embed/Fve_lHIPa-I?si=Wnd9lGbH-fTrPGVo","Type":"OP"},{"Title":"Again","Artist":"YUI","Anime":"Fullmetal Alchemist: Brotherhood","link":"https://www.youtube.com/embed/0NJCpJZ19n8?si=Y-s2X34Xg8lvZW_G","Type":"OP"},{"Title":"Inferno","Artist":"Mrs. Green Apple","Anime":"Enen no Shoboutai","link":"https://www.youtube.com/embed/wfCcs0vLysk?si=5dTVBdGNI59YPmvL","Type":"OP"},{"Title":"Irony","Artist":"ClariS","Anime":"Ore no Imouto ga Konnani Kawaii Wake ga Nai","link":"https://www.youtube.com/embed/XfjOSXQm5Eo?si=7GB8zZaxwZJxI0Xr","Type":"OP"},{"Title":"Centimeter","Artist":"The Peggies","Anime":"Kanojo Okarishimasu","link":"https://www.youtube.com/embed/I1hLZ2OchZ8?si=90HRf9j1_e322XZD","Type":"OP"},{"Title":"Tori no Uta","Artist":"Lia","Anime":"Air","link":"https://www.youtube.com/embed/NtJnix-9niI?si=gau665dj-tsO3_D3","Type":"OP"},{"Title":"Colors","Artist":"FLOW","Anime":"Code Geass","link":"https://www.youtube.com/embed/FUH9S44D1BM?si=Zv_6aoSDX8KxCjAA","Type":"OP"},{"Title":"Sign","Artist":"FLOW","Anime":"Naruto","link":"https://www.youtube.com/embed/qpi9YXaChHI?si=Ff5OgO6bexSsw2bp","Type":"OP"},{"Title":"Hello, World!","Artist":"Bump of Chicken","Anime":"Kekkai Sensen","link":"https://www.youtube.com/embed/rOU4YiuaxAM?si=USpaFAYGiM1bXMdy","Type":"OP"},{"Title":"1/2","Artist":"Makoto Kawamoto","Anime":"Rurouni Kenshin","link":"https://www.youtube.com/embed/IDPIe-b7NFM?si=uxmqnpgbfV-xxuif","Type":"OP"},{"Title":"Guren no Yumiya","Artist":"Linked Horizon","Anime":"Attack on Titan","link":"https://www.youtube.com/embed/2B6nj38AdD0?si=Lu8q7BaSJMxiLpl-","Type":"OP"},{"Title":"Sekai wa Koi ni Ochiteiru","Artist":"CHiCO with HoneyWorks","Anime":"Ao Haru Ride","link":"https://www.youtube.com/embed/wM4laths4-Y?si=NqRt-hLwq9OnX2nh","Type":"OP"},{"Title":"staple stable","Artist":"Chiwa Saito","Anime":"Bakemonogatari","link":"https://www.youtube.com/embed/CXDUXjsU5ao?si=gvGRh_qQtAiyoMAX","Type":"OP"},{"Title":"Seikan Hikou","Artist":"Megumi Nakajima","Anime":"Macross F","link":"https://www.youtube.com/embed/2CnvZOs8TWM?si=2Wpd8Lh8ZpXpva0q","Type":"OP"},{"Title":"Lion","Artist":"May'n, Megumi Nakajima","Anime":"Macross F","link":"https://www.youtube.com/embed/fGGTf044UPI?si=RpG7Hxs5_boJ-lj-","Type":"OP"},{"Title":"My Soul, Your Beats!","Artist":"Lia","Anime":"Angel Beats!","link":"https://www.youtube.com/embed/cuxDSaU0hKM?si=cKwa96-sH1O05tkr","Type":"OP"},{"Title":"Cagayake! GIRLS","Artist":"Houkago Tea Time","Anime":"K-On!","link":"https://www.youtube.com/embed/ua02dloykJ4?si=3sLKvrMLTggfIPkI","Type":"OP"},{"Title":"Flyers","Artist":"Bradio","Anime":"Death Parade","link":"https://www.youtube.com/embed/9wh8FgsEtNQ?si=DaI2Kga5v16RZ_Xv","Type":"OP"},{"Title":"Kyouran Hey Kids!!","Artist":"The Oral Cigarettes","Anime":"Noragami","link":"https://www.youtube.com/embed/C-o8pTi6vd8?si=Aak4-ILuek32spG_","Type":"OP"},{"Title":"Tabi no Tochuu","Artist":"Natsumi Kiyora","Anime":"Ookami to Koushinryou","link":"https://www.youtube.com/embed/9ydC2pUQpNQ?si=9nGmdZ7gztJ5cqwo","Type":"OP"},{"Title":"Ciki Ciki Bam Bam","Artist":"QUEENDOM","Anime":"Paripi Koumei","link":"https://www.youtube.com/embed/bqjb332ufk8?si=GrPfnb43u0oWQfkh","Type":"OP"},{"Title":"Bling-Bang-Bang-Born","Artist":"Creepy Nuts","Anime":"Mashle","link":"https://www.youtube.com/embed/mLW35YMzELE?si=zUkdvqVzfGSO_2Zf","Type":"OP"},{"Title":"Hishoku no Sora","Artist":"Mami Kawada","Anime":"Shakugan no Shana","link":"https://www.youtube.com/embed/FNl1ud7KxtI?si=73aHa535MJxzbA4H","Type":"OP"},{"Title":"Kaijuu","Artist":"Sakanaction","Anime":"Kaiju No. 8","link":"https://www.youtube.com/embed/a8dgNdJVluc?si=5XHvBq6KRQ-TiFz5","Type":"OP"},{"Title":"Be a flower","Artist":"Ryokuoushoku Shakai","Anime":"Kusuriya no Hitorigoto","link":"https://www.youtube.com/embed/v-WcMQbXbKY","Type":"OP"},{"Title":"Change the world","Artist":"V6","Anime":"InuYasha","link":"https://www.youtube.com/embed/Hok551J0Cbc?si=YInK7c2sl9M9LqCv","Type":"OP"},{"Title":"The Blessing","Artist":"Yoasobi","Anime":"Mobile Suit Gundam: The Witch from Mercury","link":"https://www.youtube.com/embed/3eytpBOkOFA","Type":"OP"},{"Title":"Brave shine","Artist":"Aimer","Anime":"Fate/stay night: Unlimited Blade Works","link":"https://www.youtube.com/embed/XeI8E20ZUE4","Type":"OP"},{"Title":"Crossing field","Artist":"LiSA","Anime":"Sword Art Online","link":"https://www.youtube.com/embed/KId6eunoiWk?si=uX5mWOspvbQeVyNl","Type":"OP"},{"Title":"Butterfly","Artist":"Koji Wada","Anime":"Digimon Adventure","link":"https://www.youtube.com/embed/32JTFI0alPk","Type":"OP"},{"Title":"Spark Again","Artist":"Aimer","Anime":"Fire Force","link":"https://www.youtube.com/embed/dZ0Jt1zYj7g","Type":"OP"},{"Title":"Otonoke","Artist":"Creepy Nuts","Anime":"Dandadan","link":"https://www.youtube.com/embed/wsKw_Astidg","Type":"OP"},{"Title":"On the way","Artist":"Aina The End","Anime":"Dandadan","link":"https://www.youtube.com/embed/NLIGDjKBLY0","Type":"OP"},{"Title":"Rolling star","Artist":"YUI","Anime":"Bleach","link":"https://www.youtube.com/embed/I3tkHg6SbrM?si=_GY8a_naeti3UcVX","Type":"OP"},{"Title":"Hohoemi no bakudan","Artist":"Matsuko Mawatari","Anime":"Yu Yu Hakusho","link":"https://www.youtube.com/embed/9ZbVCs3EJUA?si=vj1XOZdO-V3Ne_kw","Type":"OP"},{"Title":"Mixed Nuts","Artist":"Official HIGE DANdism","Anime":"SPY × FAMILY","link":"https://www.youtube.com/embed/CbH2F0kXgTY","Type":"OP"},{"Title":"Duvet","Artist":"Bôa","Anime":"Serial Experiments Lain","link":"https://www.youtube.com/embed/Uoox9fpmDP0","Type":"OP"},{"Title":"Yuusha","Artist":"Yoasobi","Anime":"Sousou no Frieren","link":"https://www.youtube.com/embed/OIBODIPC_8Y","Type":"OP"},{"Title":"Hologram","Artist":"NICO Touches the Walls","Anime":"Fullmetal Alchemist Brotherhood","link":"https://www.youtube.com/embed/o71vyLnNtBo","Type":"OP"},{"Title":"To the beginning","Artist":"Kalafina","Anime":"Fate/Zero","link":"https://www.youtube.com/embed/2psgnTAVz0E","Type":"OP"},{"Title":"Click","Artist":"ClariS","Anime":"Nisekoi","link":"https://www.youtube.com/embed/7wkj5NCSzbU?si=ZmNCbJKVvnJzLrqx","Type":"OP"},{"Title":"Step","Artist":"ClariS","Anime":"Nisekoi","link":"https://www.youtube.com/embed/Yqz_G25CjrE?si=qdaMlAY8qSoMEGIm","Type":"OP"},{"Title":"Tsukiakari no michishirube","Artist":"Stereopony","Anime":"Darker than Black","link":"https://www.youtube.com/embed/sSLtqAr32rA","Type":"OP"},{"Title":"Shayou","Artist":"Yorushika","Anime":"Boku no Kokoro no Yabai Yatsu","link":"https://www.youtube.com/embed/bqigIHMComE?si=k8ZQPu8Xi6A-Ul__","Type":"OP"},{"Title":"Yuzurenai Negai","Artist":"Naomi Tamura","Anime":"Magic Knight Rayearth","link":"https://www.youtube.com/embed/W8ONcV-AaVU?si=xelEs-9VH1S3Oezi","Type":"OP"},{"Title":"Kyoukai no Kanata","Artist":"Minori Chihara","Anime":"Kyoukai no Kanata","link":"https://www.youtube.com/embed/Ztt4JKdbygw?si=0otUp0ai-QGyrejZ","Type":"OP"},{"Title":"Yasashisano Riyuu","Artist":"ChouCho","Anime":"Hyouka","link":"https://www.youtube.com/embed/0hJiMN4Csjw?si=Mgu6hPuooB51Fz96","Type":"OP"},{"Title":"Kokoro no Chizu","Artist":"BOYSTYLE","Anime":"One Piece","link":"https://www.youtube.com/embed/RUZCdggY34c?si=hJGrWMzh-yq5nmZJ","Type":"OP"},{"Title":"Sincerely","Artist":"TRUE","Anime":"Violet Evergarden","link":"https://www.youtube.com/embed/uwph0dv9E6U?si=iL-tX7MAdi_RSiGo","Type":"OP"},{"Title":"Ninelie","Artist":"Aimer with chelly (EGOIST)","Anime":"Kabaneri of the Iron Fortress","link":"https://www.youtube.com/watch?v=j9ypaPVzrbE","Type":"ED"},{"Title":"Taidada","Artist":"ZUTOMAYO","Anime":"Dandadan","link":"https://www.youtube.com/watch?v=WVBDFqBom7Q","Type":"ED"},{"Title":"Overfly","Artist":"Luna Haruna","Anime":"Sword Art Online","link":"https://www.youtube.com/watch?v=CpDyF4pkbAs","Type":"ED"},{"Title":"Kigeki","Artist":"Gen Hoshino","Anime":"SPY x FAMILY","link":"https://www.youtube.com/embed/D_Oyplmhhv0?si=ENkofPcKEdbFifZ8","Type":"ED"},{"Title":"Orion","Artist":"Kenshi Yonezu","Anime":"Sangatsu no Lion","link":"https://www.youtube.com/embed/lzAyrgSqeeE?si=fEb8ApC3W9WwN6PN","Type":"ED"},{"Title":"Orange","Artist":"7!! (Seven Oops)","Anime":"Shigatsu wa Kimi no Uso","link":"https://www.youtube.com/watch?v=O48gok_FLCg","Type":"ED"},{"Title":"Akuma no ko","Artist":"Ai Higuchi","Anime":"Shingeki no Kyojin","link":"https://www.youtube.com/watch?v=N4F3bjlL_H4","Type":"ED"},{"Title":"Sugar song to bitter step","Artist":"UNISON SQUARE GARDEN","Anime":"Kekkai Sensen","link":"https://www.youtube.com/watch?v=QkksQoqMakQ","Type":"ED"},{"Title":"Secret base","Artist":"ZONE","Anime":"Anohana: The Flower We Saw That Day","link":"https://www.youtube.com/embed/WbFWoM5EVBs?si=wEM-er6JB1X5khcX","Type":"ED"},{"Title":"Kimi no shiranai monogatari","Artist":"Supercell","Anime":"Bakemonogatari","link":"https://www.youtube.com/watch?v=iSxeHWSpN98","Type":"ED"},{"Title":"Lost in paradise","Artist":"ALI feat. AKLO","Anime":"Jujutsu Kaisen","link":"https://www.youtube.com/embed/tLsJQ5srVQA?si=2mEwkuISbK-Nf1rQ","Type":"ED"},{"Title":"Fly me to the moon","Artist":"Claire","Anime":"Neon Genesis Evangelion","link":"https://www.youtube.com/embed/wNhuXQyyBr8?si=vL-2i3QW9o4KXaHq","Type":"ED"},{"Title":"Let it out","Artist":"Miho Fukuhara","Anime":"Fullmetal Alchemist: Brotherhood","link":"https://www.youtube.com/watch?v=D1Cx8Zr3tfg","Type":"ED"},{"Title":"Avid","Artist":"SawanoHiroyuki[nZk]:mizuki","Anime":"86","link":"https://www.youtube.com/watch?v=0s93gfmrD9I","Type":"ED"},{"Title":"Dont say lazy","Artist":"Ho-kago Tea Time","Anime":"K-On!","link":"https://www.youtube.com/watch?v=5CSNv9MNEC4","Type":"ED"},{"Title":"CHERRY (CHE.R.RY)","Artist":"YUI","Anime":"ReLIFE / Alya Sometimes Hides Her Feelings in Russian","link":"https://www.youtube.com/watch?v=_blGJS3rWow","Type":"ED"},{"Title":"Yasashii Suisei","Artist":"Yoasobi","Anime":"Beastars","link":"https://www.youtube.com/embed/VyvhvlYvRnc?si=RdekxVEJuunhzxTl","Type":"ED"},{"Title":"Nandemonaiya","Artist":"RADWIMPS","Anime":"Kimi no Na wa","link":"https://www.youtube.com/embed/n89SKAymNfA?si=ThpLMcE6DimRlGVG","Type":"ED"}];
+
+let currentActiveIndex = 0;
+let currentTypeFilter = 'ALL';
+let currentFilteredSongs = [...songs];
+let isAutoplay = true;
+let isShuffle = false;
+let ytPlayer = null;
+let ytApiReady = false;
+
+function escapeHTML(str) {
+  if (typeof str !== 'string') return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 function getYoutubeId(url) {
-  if (!url) return "";
+  if (!url || typeof url !== 'string') return "";
   const match = url.match(/(?:embed\/|v=|vi\/|youtu\.be\/|\/v\/)([a-zA-Z0-9_-]{11})/);
-  if (match) return match[1];
+  if (match && /^[a-zA-Z0-9_-]{11}$/.test(match[1])) {
+    return match[1];
+  }
   const parts = url.split("?")[0].split("/");
-  return parts[parts.length - 1] || "";
+  const candidate = parts[parts.length - 1] || "";
+  return /^[a-zA-Z0-9_-]{11}$/.test(candidate) ? candidate : "";
 }
 
 function getThumb(url) {
@@ -236,49 +285,91 @@ function getThumb(url) {
   return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : "";
 }
 
-let activeIndex = 0;
+// Load YouTube IFrame API script
+(function loadYouTubeAPI() {
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+})();
 
-function playSong(index, shouldAutoplay = true) {
-  if (index < 0 || index >= songs.length) return;
-  activeIndex = index;
-  const song = songs[index];
-  
-  // Prepare embed URL with autoplay
-  let embedUrl = song.link;
-  if (shouldAutoplay) {
-    const sep = embedUrl.includes("?") ? "&" : "?";
-    embedUrl = `${embedUrl}${sep}autoplay=1`;
+window.onYouTubeIframeAPIReady = function() {
+  ytApiReady = true;
+  initYouTubePlayer();
+};
+
+function initYouTubePlayer() {
+  if (ytPlayer) return;
+  ytPlayer = new YT.Player('mainVideoPlayer', {
+    events: {
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+function onPlayerStateChange(event) {
+  // YT.PlayerState.ENDED is 0
+  if (event.data === 0) {
+    if (isAutoplay) {
+      playNextSong();
+    }
   }
-  
-  // Update iframe
-  const iframe = document.getElementById("mainVideoPlayer");
-  if (iframe) {
-    iframe.src = embedUrl;
+}
+
+function playSong(globalIndex, shouldAutoplay = true) {
+  if (globalIndex < 0 || globalIndex >= songs.length) return;
+  currentActiveIndex = globalIndex;
+  const song = songs[globalIndex];
+  const videoId = getYoutubeId(song.link);
+
+  // Update YouTube Player using strictly sanitized videoId
+  if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+    if (shouldAutoplay) {
+      ytPlayer.loadVideoById(videoId);
+    } else {
+      ytPlayer.cueVideoById(videoId);
+    }
+  } else {
+    const iframe = document.getElementById("mainVideoPlayer");
+    if (iframe) {
+      iframe.src = videoId 
+        ? `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&autoplay=${shouldAutoplay ? 1 : 0}`
+        : "about:blank";
+    }
   }
-  
+
   // Update banner info
   const titleEl = document.getElementById("nowPlayingTitle");
   if (titleEl) titleEl.textContent = song.Title;
-  
+
   const animeEl = document.getElementById("nowPlayingAnime");
   if (animeEl) animeEl.textContent = "📺 " + song.Anime;
-  
+
   const artistEl = document.getElementById("nowPlayingArtist");
   if (artistEl) artistEl.textContent = "🎤 " + song.Artist;
-  
-  const extLink = document.getElementById("ytExternalLink");
-  if (extLink) {
-    const ytWatchUrl = song.link.replace("/embed/", "/watch?v=").split("?")[0];
-    extLink.href = ytWatchUrl;
+
+  const typeBadgeEl = document.getElementById("nowPlayingTypeBadge");
+  if (typeBadgeEl) {
+    if (song.Type === "ED") {
+      typeBadgeEl.className = "badge-type badge-ed";
+      typeBadgeEl.textContent = "🌙 ED";
+    } else {
+      typeBadgeEl.className = "badge-type badge-op";
+      typeBadgeEl.textContent = "🎬 OP";
+    }
   }
-  
-  // Update active state and live badge on cards
+
+  // Update active state in song cards
+  updateCardActiveStates();
+}
+
+function updateCardActiveStates() {
   document.querySelectorAll(".song-card").forEach(card => {
     const cardIdx = parseInt(card.getAttribute("data-index"), 10);
     const icon = card.querySelector(".play-icon");
     const pill = card.querySelector(".live-pill");
-    
-    if (cardIdx === index) {
+
+    if (cardIdx === currentActiveIndex) {
       card.classList.add("active");
       if (icon) icon.textContent = "🔊";
       if (pill) pill.style.display = "inline-block";
@@ -290,42 +381,135 @@ function playSong(index, shouldAutoplay = true) {
   });
 }
 
+function playNextSong() {
+  const list = currentFilteredSongs.length > 0 ? currentFilteredSongs : songs;
+  if (list.length === 0) return;
+
+  let nextSong;
+  if (isShuffle) {
+    let available = list.filter(s => s.Title !== songs[currentActiveIndex].Title);
+    if (available.length === 0) available = list;
+    const randIdx = Math.floor(Math.random() * available.length);
+    nextSong = available[randIdx];
+  } else {
+    const currentPos = list.findIndex(s => s.Title === songs[currentActiveIndex].Title && s.Artist === songs[currentActiveIndex].Artist);
+    const nextPos = (currentPos + 1) % list.length;
+    nextSong = list[nextPos];
+  }
+
+  const nextGlobalIdx = songs.findIndex(s => s.Title === nextSong.Title && s.Artist === nextSong.Artist);
+  if (nextGlobalIdx !== -1) {
+    playSong(nextGlobalIdx, true);
+  }
+}
+
+function playPrevSong() {
+  const list = currentFilteredSongs.length > 0 ? currentFilteredSongs : songs;
+  if (list.length === 0) return;
+
+  const currentPos = list.findIndex(s => s.Title === songs[currentActiveIndex].Title && s.Artist === songs[currentActiveIndex].Artist);
+  const prevPos = (currentPos - 1 + list.length) % list.length;
+  const prevSong = list[prevPos];
+
+  const prevGlobalIdx = songs.findIndex(s => s.Title === prevSong.Title && s.Artist === prevSong.Artist);
+  if (prevGlobalIdx !== -1) {
+    playSong(prevGlobalIdx, true);
+  }
+}
+
+function toggleAutoplay() {
+  isAutoplay = !isAutoplay;
+  const btn = document.getElementById("btnAutoplayToggle");
+  const text = document.getElementById("autoplayStateText");
+  if (isAutoplay) {
+    btn.classList.add("btn-toggle-active-cyan");
+    text.textContent = "ON";
+  } else {
+    btn.classList.remove("btn-toggle-active-cyan");
+    text.textContent = "OFF";
+  }
+}
+
+function toggleShuffle() {
+  isShuffle = !isShuffle;
+  const btn = document.getElementById("btnShuffleToggle");
+  const text = document.getElementById("shuffleStateText");
+  if (isShuffle) {
+    btn.classList.add("btn-toggle-active-pink");
+    text.textContent = "ON";
+  } else {
+    btn.classList.remove("btn-toggle-active-pink");
+    text.textContent = "OFF";
+  }
+}
+
+function setTypeFilter(type) {
+  currentTypeFilter = type;
+  document.querySelectorAll(".filter-chip").forEach(chip => {
+    chip.classList.toggle("active", chip.getAttribute("data-type") === type);
+  });
+  handleFilterChange();
+}
+
+function handleFilterChange() {
+  const query = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+
+  currentFilteredSongs = songs.filter(s => {
+    const matchesType = currentTypeFilter === 'ALL' || s.Type === currentTypeFilter;
+    const matchesQuery = !query || 
+      (s.Title && s.Title.toLowerCase().includes(query)) ||
+      (s.Anime && s.Anime.toLowerCase().includes(query)) ||
+      (s.Artist && s.Artist.toLowerCase().includes(query));
+    return matchesType && matchesQuery;
+  });
+
+  renderSongList(currentFilteredSongs);
+}
+
 function renderSongList(list) {
   const container = document.getElementById("songListContainer");
   if (!container) return;
-  
+
   if (list.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; padding: 48px 16px; color: #8b95b5;">
-        <p style="font-size: 1.1rem; margin-bottom: 6px;">❌ Lagu tidak ditemukan</p>
-        <span style="font-size: 0.85rem;">Coba cari dengan kata kunci judul, anime, atau artis lain.</span>
+        <p style="font-size: 1.1rem; margin-bottom: 6px;">❌ Tidak ada lagu ditemukan</p>
+        <span style="font-size: 0.85rem;">Coba ganti filter opening/ending atau kata kunci pencarian.</span>
       </div>
     `;
     return;
   }
-  
+
   container.innerHTML = list.map(song => {
     const origIndex = songs.findIndex(s => s.Title === song.Title && s.Artist === song.Artist);
-    const isSelected = origIndex === activeIndex;
+    const isSelected = origIndex === currentActiveIndex;
     const thumb = getThumb(song.link);
+    const isOP = song.Type === "OP";
+    const safeTitle = escapeHTML(song.Title);
+    const safeAnime = escapeHTML(song.Anime);
+    const safeArtist = escapeHTML(song.Artist);
+
     return `
       <div class="song-card ${isSelected ? 'active' : ''}" 
            data-index="${origIndex}" 
            onclick="playSong(${origIndex}, true)">
         <div class="song-thumb-wrapper">
-          <img class="song-thumb" src="${thumb}" alt="${song.Title}" loading="lazy" />
+          <img class="song-thumb" src="${thumb}" alt="${safeTitle}" loading="lazy" />
           <div class="play-badge-overlay">
             <span class="play-icon">${isSelected ? '🔊' : '▶'}</span>
           </div>
         </div>
         <div class="song-content">
           <div class="song-title-row">
-            <span class="song-title">${song.Title}</span>
+            <span class="song-title">${safeTitle}</span>
             <span class="live-pill" style="display: ${isSelected ? 'inline-block' : 'none'};">PLAYING</span>
           </div>
           <div class="song-tags">
-            <span class="badge-anime" title="${song.Anime}">📺 ${song.Anime}</span>
-            <span class="badge-artist" title="${song.Artist}">🎤 ${song.Artist}</span>
+            <span class="badge-type ${isOP ? 'badge-op' : 'badge-ed'}">
+              ${isOP ? '🎬 OP' : '🌙 ED'}
+            </span>
+            <span class="badge-anime" title="${safeAnime}">📺 ${safeAnime}</span>
+            <span class="badge-artist" title="${safeArtist}">🎤 ${safeArtist}</span>
           </div>
         </div>
       </div>
@@ -333,24 +517,24 @@ function renderSongList(list) {
   }).join("");
 }
 
-function filterSongs() {
-  const query = (document.getElementById("searchInput").value || "").toLowerCase().trim();
-  if (!query) {
-    renderSongList(songs);
-    return;
-  }
-  const filtered = songs.filter(s => 
-    (s.Title && s.Title.toLowerCase().includes(query)) ||
-    (s.Anime && s.Anime.toLowerCase().includes(query)) ||
-    (s.Artist && s.Artist.toLowerCase().includes(query))
-  );
-  renderSongList(filtered);
+function updateChipCounts() {
+  const totalAll = songs.length;
+  const totalOP = songs.filter(s => s.Type === "OP").length;
+  const totalED = songs.filter(s => s.Type === "ED").length;
+
+  const countAll = document.getElementById("count-ALL");
+  if (countAll) countAll.textContent = totalAll;
+  const countOP = document.getElementById("count-OP");
+  if (countOP) countOP.textContent = totalOP;
+  const countED = document.getElementById("count-ED");
+  if (countED) countED.textContent = totalED;
 }
 
 function initPlayer() {
   if (typeof songs !== 'undefined' && songs.length > 0) {
+    updateChipCounts();
     renderSongList(songs);
-    playSong(0, false); // Load first track into player without forcing audio on page load
+    playSong(0, false);
   }
 }
 
