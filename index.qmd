@@ -27,13 +27,7 @@ df <- bind_rows(df_op, df_ed) %>%
   mutate(
     Artist = ifelse(is.na(Artist) | trimws(Artist) == "", "Unknown Artist", trimws(Artist)),
     Title = ifelse(is.na(Title) | trimws(Title) == "", "Untitled", trimws(Title)),
-    Anime = ifelse(is.na(Anime) | trimws(Anime) == "", "Anime", trimws(Anime)),
-    Artist = case_when(
-      tolower(Artist) == "yoasobi" ~ "Yoasobi",
-      tolower(Artist) == "supercell" ~ "Supercell",
-      tolower(Artist) == "yui" ~ "YUI",
-      TRUE ~ Artist
-    )
+    Anime = ifelse(is.na(Anime) | trimws(Anime) == "", "Anime", trimws(Anime))
   )
 
 # Serialize to JSON for client-side interaction
