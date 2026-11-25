@@ -29,9 +29,13 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
+            any::rmarkdown
+            any::knitr
             any::tidyverse
             any::googlesheets4
             any::jsonlite
+            any::gt
+            any::quarto
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
